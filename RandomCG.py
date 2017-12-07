@@ -1,10 +1,12 @@
 import numpy as np
 import collections
+from time import gmtime, strftime
+
 
 class randomcg:
     def __init__(self):
         self.stack=[]
-
+        self.file=open("disk.txt","a")
     
     def print_num(self):
         res=np.random.choice([1,2,3,4,5],p=[0.5,0.25,0.15,0.05,0.05])
@@ -22,7 +24,14 @@ class randomcg:
         c=collections.Counter(self.stack)
         return c
     
-
+    def read_write(self):
+        if not self.stack:
+            return 
+            
+        tmp=self.stack[-1]
+        self.file.write(str(tmp)+' '+strftime("%Y-%m-%d %H:%M:%S", gmtime())+'\n')
+         
+    
 def main():
     x=randomcg()
     
@@ -32,6 +41,8 @@ def main():
     c=x.cal_freq()
     for i in range(1,6):
         print('{} percentage is {} %'.format(i,c[i]))
+
+    x.read_write()  
 
 if __name__=="__main__":
     main()
